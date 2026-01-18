@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Payment</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+body{background:#020617;color:white;font-family:Arial}
+.box{max-width:400px;margin:auto;margin-top:60px;
+background:#0f172a;padding:20px;border-radius:10px}
+input,button{width:100%;padding:10px;margin-top:10px}
+button{background:#3b82f6;border:none;color:white}
+</style>
+</head>
+<body>
+
+<div class="box">
+<h2>Payee: Chandan</h2>
+<p id="timer"></p>
+<input id="amount" placeholder="Enter Amount">
+<button onclick="pay()">Pay using GPay / PhonePe</button>
+</div>
+
+<script>
+let time=600;
+let txnId="TXN"+Date.now();
+
+let int=setInterval(()=>{
+ let m=Math.floor(time/60);
+ let s=time%60;
+ timer.innerText=`Time left: ${m}:${s}`;
+ time--;
+ if(time<0){
+  clearInterval(int);
+  save("FAILED");
+  location.href="failed.html";
+ }
+},1000);
+
+function pay(){
+ let upi=`upi://pay?pa=chandan1010011-2@oksbi&pn=Chandan&am=${amount.value}`;
+ window.location.href=upi;
+
+ setTimeout(()=>{
+  save("SUCCESS");
+  location.href="success.html";
+ },4000);
+}
+
+function save(status){
+ let data=JSON.parse(localStorage.getItem("txns")||"[]");
+ data.push({
+  id:txnId,
+  name:localStorage.getItem("user"),
+  amount:amount.value,
+  status:status
+ });
+ localStorage.setItem("txns",JSON.stringify(data));
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Admin Dashboard</title>
+<style>
+body{background:#020617;color:white;font-family:Arial}
+.box{max-width:600px;margin:auto;margin-top:80px;
+background:#0f172a;padding:20px;border-radius:10px}
+input,button{width:100%;padding:10px;margin-top:10px}
+table{width:100%;margin-top:20px;border-collapse:collapse}
+td,th{border:1px solid #334155;padding:8px;text-align:center}
+</style>
+</head>
+<body>
+
+<div class="box" id="login">
+<h2>Admin Login</h2>
+<input id="u" placeholder="User ID">
+<input id="p" type="password" placeholder="Password">
+<button onclick="login()">Login</button>
+</div>
+
+<div class="box" id="dash" style="display:none">
+<h2>All Transactions</h2>
+<table>
+<tr><th>Txn ID</th><th>Name</th><th>Amount</th><th>Status</th></tr>
+<tbody id="rows"></tbody>
+</table>
+</div>
+
+<script>
+function login(){
+ if(u.value==="chandan" && p.value==="chandan@143"){
+  login.style.display="none";
+  dash.style.display="block";
+  load();
+ }else alert("Invalid Admin Login");
+}
+
+function load(){
+ let txns=JSON.parse(localStorage.getItem("txns")||"[]");
+ rows.innerHTML="";
+ txns.forEach(t=>{
+  rows.innerHTML+=`
+   <tr>
+    <td>${t.id}</td>
+    <td>${t.name}</td>
+    <td>${t.amount}</td>
+    <td>${t.status}</td>
+   </tr>`;
+ });
+}
+</script>
+
+</body>
+</html>
