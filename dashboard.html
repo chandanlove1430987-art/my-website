@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Payment | Chandan</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+    body { background: linear-gradient(135deg, #141e30, #243b55); color: white;
+      display: flex; justify-content: center; align-items: center; min-height: 100vh; }
+    .card { background: #111; padding: 30px; border-radius: 15px; text-align: center; width: 320px; }
+    .qr { background: white; padding: 10px; border-radius: 10px; margin: 15px 0; }
+    img { width: 200px; height: 200px; }
+    button { margin-top: 15px; padding: 10px 20px; border: none; border-radius: 20px;
+      background: #00eaff; cursor: pointer; }
+  </style>
+</head>
+<body>
+
+<div class="card">
+  <h2 id="payee"></h2>
+  <p>UPI ID: chandan1010011-2@oksbi</p>
+  <div class="qr">
+    <img id="qrImg" alt="UPI QR">
+  </div>
+  <p>Scan using any UPI app</p>
+  <button onclick="logout()">Logout</button>
+</div>
+
+<script>
+  const name = localStorage.getItem('payeeName') || 'Pay';
+  document.getElementById('payee').innerText = 'Pay to ' + name;
+
+  const upiLink = `upi://pay?pa=chandan1010011-2@oksbi&pn=${encodeURIComponent(name)}&cu=INR`;
+  document.getElementById('qrImg').src =
+    'https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=' + encodeURIComponent(upiLink);
+
+  function logout() {
+    window.location.href = 'index.html';
+  }
+</script>
+
+</body>
+</html>
